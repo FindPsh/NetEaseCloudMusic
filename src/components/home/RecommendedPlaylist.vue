@@ -1,8 +1,8 @@
 <template>
   <div class="musicList">
     <div class="musicTop">
-      <div class="title">发现好歌单</div>
-      <div class="more">发现更多</div>
+      <div class="title">推荐歌单</div>
+      <!-- <div class="more">发现更多</div> -->
     </div>
     <div class="musicContent">
       <van-swipe
@@ -12,9 +12,11 @@
         :show-indicators="false"
       >
         <van-swipe-item v-for="item in musicList" :key="item" class="item">
-          <img :src="item.picUrl" alt="" />
-          <!-- <span class="playCount">{{ changeCount(item.playCount) }}</span> -->
-          <span class="name">{{ item.name }}</span>
+          <router-link :to="{ path: '/songDetails', query: { id: item.id } }">
+            <img :src="item.picUrl" alt="" />
+            <span class="playCount">{{ changeCount(item.playCount) }}</span>
+            <span class="name">{{ item.name }}</span>
+          </router-link>
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -64,7 +66,7 @@ export default {
   margin-bottom: 0.2rem;
 }
 .title {
-  font-size: 0.4rem;
+  font-size: 0.3rem;
   font-weight: 900;
 }
 .more {
@@ -86,7 +88,6 @@ export default {
 }
 .swiper img {
   width: 100%;
-  height: 3rem;
   border-radius: 0.2rem;
 }
 .name {
@@ -101,5 +102,17 @@ export default {
 
 .musicContent >>> .van-swipe-item {
   margin-left: 0.2rem;
+  width: 120px !important;
+  height: 160px !important;
+}
+.playCount {
+  position: absolute;
+  color: white;
+  font-size: 0.2rem;
+  top: 0.1rem;
+  right: 0.1rem;
+}
+.item {
+  position: relative;
 }
 </style>

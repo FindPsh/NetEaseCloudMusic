@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .top {
   /* 基础线性渐变，从上到下 */
   background: linear-gradient(pink, white);

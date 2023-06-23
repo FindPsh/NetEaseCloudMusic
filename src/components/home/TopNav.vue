@@ -5,7 +5,6 @@
     </div>
     <div class="topContent">
       <van-search
-        v-model="value"
         placeholder="请输入搜索关键词"
         background="transparent"
         right-icon="scan"
@@ -18,7 +17,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  setup() {},
+};
 </script>
 
 <style scoped>

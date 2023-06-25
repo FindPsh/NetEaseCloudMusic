@@ -40,7 +40,7 @@
         <li
           v-for="(song, index) in playlist.tracks"
           :key="song.id"
-          @click="playMusic(playlist.tracks, i)"
+          @click="playMusic(playlist.tracks, index, song.name)"
         >
           <div class="song-info">
             <div class="song-index">{{ index + 1 }}</div>
@@ -82,12 +82,14 @@ export default {
     };
   },
   methods: {
-    playMusic(value, index) {
+    playMusic(value, index, name) {
       console.log(value);
       this.updatePlayList(value);
       this.updatePlayListIndex(index);
+      // console.log()
+      this.updateName(name);
     },
-    ...mapMutations(["updatePlayList", "updatePlayListIndex"]),
+    ...mapMutations(["updatePlayList", "updatePlayListIndex", "updateName"]),
   },
 };
 </script>

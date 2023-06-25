@@ -1,5 +1,5 @@
 <template>
-  <div class="player-container">
+  <div class="player-container" @click.stop="updateDetailShow">
     <div class="song-info">
       <div class="disc">
         <img
@@ -8,19 +8,18 @@
           alt="Song Cover"
         />
       </div>
-
       <div class="song-details">
-        <p class="song-name">{{ playList[playListIndex].al.name }}</p>
+        <p class="song-name">{{ name }}</p>
         <!-- <p class="song-artist">{{ currentSong.artist }}</p> -->
       </div>
     </div>
     <div class="right">
       <div class="controls">
         <button class="pause-button" v-if="isbtnShow">
-          <van-icon name="play-circle-o" @click="isPlayMusic" />
+          <van-icon name="play-circle-o" @click.stop="isPlayMusic" />
         </button>
         <button class="play-button" v-else>
-          <van-icon name="pause-circle-o" @click="isPlayMusic" />
+          <van-icon name="pause-circle-o" @click.stop="isPlayMusic" />
         </button>
       </div>
       <div class="playlist">
@@ -35,14 +34,33 @@
       :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3`"
       ref="audio"
     ></audio>
+    <van-popup
+      v-model:show="detailShow"
+      position="bottom"
+      :style="{ height: '100%', width: '100%' }"
+    >
+      <playing-view
+        :musicItem="playList[playListIndex]"
+        :isPlayMusic="isPlayMusic"
+        :isbtnShow="isbtnShow"
+      ></playing-view>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import PlayingView from "./PlayingView.vue";
 export default {
+  components: { PlayingView },
   computed: {
-    ...mapState(["playList", "playListIndex", "isbtnShow"]),
+    ...mapState([
+      "playList",
+      "playListIndex",
+      "isbtnShow",
+      "detailShow",
+      "name",
+    ]),
   },
   methods: {
     isPlayMusic() {
@@ -55,8 +73,28 @@ export default {
         this.updateIsbtnShow(true);
       }
     },
-
-    ...mapMutations(["updateIsbtnShow"]),
+    ...mapMutations(["updateIsbtnShow", "updateDetailShow", "getLyric"]),
+  },
+  watch: {
+    // 监听如果下标发生了改变自动播放音乐
+    playListIndex: function () {
+      this.$refs.audio.autoplay = true;
+      if (this.$refs.audio.pause) {
+        this.updateIsbtnShow(false);
+      }
+    },
+    playList: function () {
+      if (this.isbtnShow) {
+        this.$refs.audio.autoplay = true;
+        this.updateIsbtnShow(false);
+      }
+    },
+  },
+  mounted() {
+    this.$store.dispatch("getLyric", this.playList[this.playListIndex].id);
+  },
+  updated() {
+    this.$store.dispatch("getLyric", this.playList[this.playListIndex].id);
   },
 };
 </script>

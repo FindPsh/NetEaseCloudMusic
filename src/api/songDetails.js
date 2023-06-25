@@ -8,10 +8,10 @@ export function getSongDetailsList(data) {
   });
 }
 
-// 歌单歌曲列表
-// export function getSongPlaylist(data) {
-//     return service({
-//       method: "GET",
-//       url: `/playlist/track/all?id=24381616`,
-//     });
-//   }
+// 获取歌词数据
+export function getSongLyric(data) {
+  return service({
+    method: "GET",
+    url: `/lyric?id=${data}`,
+  });
+}

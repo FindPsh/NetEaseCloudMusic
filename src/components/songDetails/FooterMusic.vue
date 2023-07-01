@@ -1,50 +1,59 @@
 <template>
-  <div class="player-container" @click.stop="updateDetailShow">
-    <div class="song-info">
-      <div class="disc">
-        <img
-          class="song-cover"
-          :src="playList[playListIndex].al.picUrl"
-          alt="Song Cover"
-        />
+  <div>
+    <div class="player-container" @click.stop="updateDetailShow">
+      <div class="song-info">
+        <div class="disc">
+          <img
+            class="song-cover"
+            :src="playList[playListIndex].al.picUrl"
+            alt="Song Cover"
+          />
+        </div>
+        <div class="song-details">
+          <p class="song-name">{{ name }}</p>
+          <!-- <p class="song-artist">{{ currentSong.artist }}</p> -->
+        </div>
       </div>
-      <div class="song-details">
-        <p class="song-name">{{ name }}</p>
-        <!-- <p class="song-artist">{{ currentSong.artist }}</p> -->
+      <div class="right">
+        <div class="controls">
+          <button class="pause-button" v-if="isbtnShow">
+            <van-icon name="play-circle-o" @click.stop="isPlayMusic" />
+          </button>
+          <button class="play-button" v-else>
+            <van-icon name="pause-circle-o" @click.stop="isPlayMusic" />
+          </button>
+        </div>
+        <div class="playlist">
+          <button class="playlist-button">
+            <van-icon name="ellipsis" />
+          </button>
+          <!-- 歌曲列表内容 -->
+          <!-- 可以根据需要进行渲染 -->
+        </div>
       </div>
+      <audio
+        :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3`"
+        ref="audio"
+      ></audio>
+      <van-popup
+        v-model:show="detailShow"
+        position="bottom"
+        :style="{ height: '100%', width: '100%' }"
+      >
+        <playing-view
+          :musicItem="playList[playListIndex]"
+          :isPlayMusic="isPlayMusic"
+          :isbtnShow="isbtnShow"
+        ></playing-view>
+      </van-popup>
+      <van-tabbar v-model="active">
+        <van-tabbar-item icon="home-o">标签</van-tabbar-item>
+        <van-tabbar-item icon="search">标签</van-tabbar-item>
+        <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
+        <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+      </van-tabbar>
     </div>
-    <div class="right">
-      <div class="controls">
-        <button class="pause-button" v-if="isbtnShow">
-          <van-icon name="play-circle-o" @click.stop="isPlayMusic" />
-        </button>
-        <button class="play-button" v-else>
-          <van-icon name="pause-circle-o" @click.stop="isPlayMusic" />
-        </button>
-      </div>
-      <div class="playlist">
-        <button class="playlist-button">
-          <van-icon name="ellipsis" />
-        </button>
-        <!-- 歌曲列表内容 -->
-        <!-- 可以根据需要进行渲染 -->
-      </div>
-    </div>
-    <audio
-      :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3`"
-      ref="audio"
-    ></audio>
-    <van-popup
-      v-model:show="detailShow"
-      position="bottom"
-      :style="{ height: '100%', width: '100%' }"
-    >
-      <playing-view
-        :musicItem="playList[playListIndex]"
-        :isPlayMusic="isPlayMusic"
-        :isbtnShow="isbtnShow"
-      ></playing-view>
-    </van-popup>
+    <div></div>
   </div>
 </template>
 
@@ -52,6 +61,11 @@
 import { mapMutations, mapState } from "vuex";
 import PlayingView from "./PlayingView.vue";
 export default {
+  data() {
+    return {
+      active: "",
+    };
+  },
   components: { PlayingView },
   computed: {
     ...mapState([
@@ -100,6 +114,9 @@ export default {
 </script>
 
 <style scoped>
+.song-info >>> .van-tabbar--fixed {
+  position: relative;
+}
 .right {
   display: flex;
 }

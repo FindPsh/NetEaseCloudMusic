@@ -26,7 +26,7 @@ export default {};
 <style scoped>
 .nav {
   width: 100%;
-  height: 2rem;
+  height: 1.2rem;
   display: flex;
   justify-content: space-around;
   align-items: center;

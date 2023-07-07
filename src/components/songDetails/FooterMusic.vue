@@ -33,6 +33,7 @@
       </div>
       <audio
         :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3`"
+        muted
         ref="audio"
       ></audio>
       <van-popup
@@ -46,12 +47,12 @@
           :isbtnShow="isbtnShow"
         ></playing-view>
       </van-popup>
-      <van-tabbar v-model="active">
+      <!-- <van-tabbar v-model="active">
         <van-tabbar-item icon="home-o">标签</van-tabbar-item>
         <van-tabbar-item icon="search">标签</van-tabbar-item>
         <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
         <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
-      </van-tabbar>
+      </van-tabbar> -->
     </div>
     <div></div>
   </div>
@@ -78,6 +79,7 @@ export default {
   },
   methods: {
     isPlayMusic() {
+      console.log(this.$refs.audio.paused);
       // 判断音乐是否播放
       if (this.$refs.audio.paused) {
         this.$refs.audio.play();
@@ -106,6 +108,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getLyric", this.playList[this.playListIndex].id);
+    console.log(
+      "1111111111111111111111111111",
+      this.playList[this.playListIndex].id
+    );
   },
   updated() {
     this.$store.dispatch("getLyric", this.playList[this.playListIndex].id);
@@ -117,9 +123,11 @@ export default {
 .song-info >>> .van-tabbar--fixed {
   position: relative;
 }
+
 .right {
   display: flex;
 }
+
 .player-container {
   width: 100%;
   height: 1.2rem;
@@ -128,7 +136,8 @@ export default {
   justify-content: space-between;
   background-color: #fff;
   padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影样式 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* 添加阴影样式 */
   position: fixed;
 
   bottom: 0;
@@ -153,6 +162,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .disc img {
   width: 0.6rem;
   height: 0.6rem;

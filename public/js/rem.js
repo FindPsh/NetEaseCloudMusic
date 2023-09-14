@@ -1,6 +1,7 @@
 function remSize() {
-  // 获取设备宽度
-  var deviceWidth = document.documentElement.clientHeight || window.innerHeight;
+  // 获取设备宽度clientHeightinnerHeight
+  var deviceWidth = document.documentElement.clientWidth || window.innerWidth;
+  // console.log(deviceWidth);
   if (deviceWidth >= 750) {
     deviceWidth = 750;
   }

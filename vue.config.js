@@ -10,4 +10,15 @@ module.exports = defineConfig({
       }),
     ],
   },
+  devServer: {
+    proxy: {
+      "/api": {
+        target: "https://music.163.com", // 设置代理目标
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": "", // 将请求路径中的 /api 前缀移除
+        },
+      },
+    },
+  },
 });

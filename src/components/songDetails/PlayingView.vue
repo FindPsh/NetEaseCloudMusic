@@ -100,7 +100,7 @@ export default {
           return { min, sec, mill, lrc, time };
         });
       }
-      console.log(arr);
+      // console.log(arr);
       return arr;
     },
   },

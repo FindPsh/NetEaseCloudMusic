@@ -30,7 +30,7 @@ export default createStore({
     },
     updatePlayList: function (state, value) {
       state.playList = value;
-      console.log(state.playList);
+      // console.log(state.playList);
     },
     updatePlayListIndex: function (state, value) {
       state.playListIndex = value;
@@ -51,7 +51,7 @@ export default createStore({
   actions: {
     getLyric: async function (content, value) {
       let res = await getSongLyric(value);
-      console.log(res);
+      // console.log(res);
       content.commit("updateLyricList", res.data.lrc);
     },
   },

@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     playMusic(value, index, name) {
-      console.log(value);
+      // console.log(value);
       this.updatePlayList(value);
       this.updatePlayListIndex(index);
       // console.log()

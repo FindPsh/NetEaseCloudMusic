@@ -33,7 +33,7 @@
       </div>
       <audio
         :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3`"
-        muted
+        crossOrigin="anonymous"
         ref="audio"
       ></audio>
       <van-popup
@@ -82,12 +82,17 @@ export default {
       console.log(this.$refs.audio.paused);
       // 判断音乐是否播放
       if (this.$refs.audio.paused) {
-        this.$refs.audio.play();
+        this.$nextTick(function () {
+          this.$refs.audio.play();
+        });
         this.updateIsbtnShow(false);
       } else {
-        this.$refs.audio.pause();
+        this.$nextTick(function () {
+          this.$refs.audio.pause();
+        });
         this.updateIsbtnShow(true);
       }
+      // console.log(this.$refs.audio.play());
     },
     ...mapMutations(["updateIsbtnShow", "updateDetailShow", "getLyric"]),
   },
